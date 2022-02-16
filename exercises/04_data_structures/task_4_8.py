@@ -26,3 +26,10 @@
 """
 
 ip = "192.168.3.1"
+
+out = "{:10}" * 4
+outbin = "{:08b}  " * 4
+ip = ip.split('.')
+
+print(out.format(ip[0],ip[1],ip[2],ip[3]))
+print(outbin.format(int(ip[0]),int(ip[1]),int(ip[2]),int(ip[3])))
