@@ -30,3 +30,26 @@ Out[1]: '11111111111111111111111111110000'
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+ip = input("Введите IP-адрес: ")
+
+out = "{:10}" * 4
+outbin = "{:08b}  " * 4
+ip, mask = ip.split('/')[0], ip.split('/')[1]
+ip = ip.split('.')
+
+print("Network:")
+print(out.format(ip[0],ip[1],ip[2],ip[3]))
+print(outbin.format(int(ip[0]),int(ip[1]),int(ip[2]),int(ip[3])))
+
+print("\nMask:\n/" + mask)
+
+bin_mask = "1" * int(mask) + "0" * (32 - int(mask))
+a,b,c,d = int(bin_mask[:8],2), int(bin_mask[8:16],2), int(bin_mask[16:24],2), int(bin_mask[24:],2)
+out = "{:10}" * 4
+print(out.format(str(a),str(b),str(c),str(d)))
+print(bin_mask[:8] + '  ' + 
+      bin_mask[8:16] + '  ' +
+      bin_mask[16:24] + '  ' +
+      bin_mask[24:])
+
