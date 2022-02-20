@@ -27,17 +27,11 @@ trunk_template = [
 ]
 
 template = {"access": access_template, "trunk": trunk_template}
-
-template2 = {"access": "Введите номер VLAN: ",
-            "trunk": "Введите разрешенные VLANы: "
-}
-
+question = {"access": "Введите номер VLAN: ", "trunk": "Введите разрешенные VLANы: "}
 
 mode = input("Введите режим работы интерфейса (access/trunk): ")
 interface = input("Введите тип и номер интерфейса: ")
-vlans = input(f"{template2[mode]}")
+vlans = input(question[mode])
 
-print(f"\ninterface {interface}")
+print("interface {}".format(interface))
 print("\n".join(template[mode]).format(vlans))
-
-
