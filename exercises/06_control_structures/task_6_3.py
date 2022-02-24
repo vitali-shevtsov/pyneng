@@ -5,11 +5,11 @@
 В скрипте сделан генератор конфигурации для access-портов.
 Сделать аналогичный генератор конфигурации для портов trunk.
 
-В транках ситуация усложняется тем, что VLANов может быть много, и надо понимать,
-что с ними делать (добавлять, удалять, перезаписывать).
+В транках ситуация усложняется тем, что VLANов может быть много,
+и надо понимать, что с ними делать (добавлять, удалять, перезаписывать).
 
-Поэтому в соответствии каждому порту стоит список и первый (нулевой) элемент списка
-указывает как воспринимать номера VLAN, которые идут дальше.
+Поэтому в соответствии каждому порту стоит список и первый (нулевой)
+элемент списка указывает как воспринимать номера VLAN, которые идут дальше.
 
 Пример значения и соответствующей команды:
 * ['add', '10', '20'] - команда switchport trunk allowed vlan add 10,20
@@ -74,10 +74,32 @@ trunk = {
     "0/7": ["only", "30"],
 }
 
-# for intf, vlan in access.items():
-#     print("interface FastEthernet" + intf)
-#     for command in access_template:
-#         if command.endswith("access vlan"):
-#             print(f" {command} {vlan}")
-#         else:
-#             print(f" {command}")
+"""
+for intf, vlan in access.items():
+    print("interface FastEthernet" + intf)
+    for command in access_template:
+        if command.endswith("access vlan"):
+            print(f" {command} {vlan}")
+        else:
+            print(f" {command}")
+"""
+
+for intf, vlan in trunk.items():
+    print("interface FastEthernet" + intf)
+    if 'add' in vlan:
+        com = trunk_template[2] + ' add '
+        for i in range(len(vlan)-1):
+            com += vlan[i+1] + ','
+    elif 'only' in vlan:
+        com = trunk_template[2] + ' '
+        for i in range(len(vlan)-1):
+            com += vlan[i+1] + ','
+    elif 'del' in vlan:
+        com = trunk_template[2] + ' remove '
+        for i in range(len(vlan)-1):
+            com += vlan[i+1] + ','
+    else:
+        pass
+    print(f" {trunk_template[0]}")
+    print(f" {trunk_template[1]}")
+    print(f" {com[:-1]}")
