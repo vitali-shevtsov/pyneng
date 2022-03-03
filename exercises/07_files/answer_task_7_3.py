@@ -21,14 +21,9 @@
 
 """
 
-output = "{:9}{:20}{}" 
-
-with open('CAM_table.txt') as f:
-    for line in f:
-        line = line.split()
-        if line and line[0].isdigit():
-#            print(line)
-            print(output.format(line[0],line[1],line[3]))
-
-
-
+with open("CAM_table.txt") as conf:
+    for line in conf:
+        words = line.split()
+        if words and words[0].isdigit():
+            vlan, mac, _, interface = words
+            print(f"{vlan:9}{mac:20}{interface}")

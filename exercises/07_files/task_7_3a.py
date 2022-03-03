@@ -40,3 +40,24 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+list = []
+
+with open("CAM_table.txt") as conf:
+    for line in conf:
+        words = line.split()
+        if words and words[0].isdigit():
+            vlan, mac, _, interface = words
+            list.append(words)
+            
+for line in list:
+    line[0] = int(line[0])
+
+list.sort()
+output = "{:9}{:20}{}" 
+
+for line in list:
+#    print(line)
+    print(output.format(str(line[0]),line[1],line[3]))
+
+
+
