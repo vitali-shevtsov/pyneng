@@ -23,3 +23,33 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+def get_int_vlan_map(config_filename):
+    access = {}
+    trunk = {}
+    port_conf = []
+    with open(config_filename, 'r') as f:
+        for line in f.readlines():
+            if line.startswith('interface FastEthernet'):
+                port_conf.append(line)
+            elif ('access vlan' in line) or ('trunk allowed' in line):
+                port_conf.append(line) 
+    return(port_conf)
+
+
+print(get_int_vlan_map('config_sw1.txt'))
+
+
+"""
+interface FastEthernet0/0
+ switchport mode access
+ switchport access vlan 10
+ duplex auto
+!
+interface FastEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 100,200
+ switchport mode trunk
+ duplex auto
+
+"""
