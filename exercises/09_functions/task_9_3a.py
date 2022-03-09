@@ -25,3 +25,21 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+def get_int_vlan_map(config_filename):
+    access = {}
+    trunk = {}
+    port_conf = []
+    with open(config_filename, 'r') as f:
+        array = f.readlines()
+        for i in range(len(array)):
+            if 'access vlan' in array[i]:
+                access[array[i-2].split()[1]] = int(array[i].split()[-1])
+            elif 'trunk allowed' in array[i]:
+                trunk[array[i-2].split()[1]] = [int(i) for i in array[i].split()[-1].split(',')]
+            elif ('duplex auto' in array[i]) and ('mode access' in array[i-1]):
+               access[array[i-2].split()[1]] = 1
+    return(access, trunk)
+
+print(get_int_vlan_map('config_sw2.txt'))
+

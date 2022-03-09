@@ -25,16 +25,16 @@
 """
 
 def get_int_vlan_map(config_filename):
-    access = {}
-    trunk = {}
-    port_conf = []
-    with open(config_filename, 'r') as f:
-        array = f.readlines()
-        for i in range(len(array)):
-            if 'access vlan' in array[i]:
-                access[array[i-2].split()[1]] = int(array[i].split()[-1])
-            elif 'trunk allowed' in array[i]:
-                trunk[array[i-2].split()[1]] = [int(i) for i in array[i].split()[-1].split(',')]
-    return(access, trunk)
+    access_dict = {}
+    trunk_dict = {}
 
-#print(get_int_vlan_map('config_sw1.txt'))
+    with open(config_filename) as cfg:
+        for line in cfg:
+            line = line.rstrip()
+            if line.startswith("interface"):
+                intf = line.split()[1]
+            elif "access vlan" in line:
+                access_dict[intf] = int(line.split()[-1])
+            elif "trunk allowed" in line:
+                trunk_dict[intf] = [int(v) for v in line.split()[-1].split(",")]
+        return access_dict, trunk_dict
