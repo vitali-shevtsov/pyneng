@@ -67,24 +67,15 @@ def ignore_command(command, ignore):
 
 
 def convert_config_to_dict(config_filename):
-    dict = {}
+    config_dict = {}
     with open(config_filename) as f:
-        array = f.readlines()
-        for i in range(len(array)):
-            command_array = []
-            tmp = not array[i].startswith(' ')
-            if array[i].startswith('!') or ignore_command(array[i], ignore) or array[i].startswith('\n'):
-#                print(array[i])
-                pass
-            elif tmp:
-                a = i+1
-                while a < len(array) and array[a].startswith(' '):
-                    if ignore_command(array[a], ignore) != True:
-                        command_array.append(array[a].strip())
-                    a += 1
-                a = 0
-                dict[array[i].strip()] = command_array
-        return(dict)
-
-print(convert_config_to_dict('config_sw1.txt'))
+        for line in f:
+            line = line.rstrip()
+            if line and not (line.startswith("!") or ignore_command(line, ignore)):
+                if line[0].isalnum():
+                    section = line
+                    config_dict[section] = []
+                else:
+                    config_dict[section].append(line.strip())
+    return config_dict
 
